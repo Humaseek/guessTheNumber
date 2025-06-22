@@ -7,8 +7,9 @@ let score = document.querySelector('.score');
 let message = document.querySelector('.message');
 console.log(message.textContent);
 let highScore = document.querySelector('.highscore');
-document.querySelector('.check').addEventListener('click', function () {
-  const guess = Number(document.querySelector('.guess').value);
+let guess;
+const play = function () {
+  guess = Number(document.querySelector('.guess').value);
   console.log(message.textContent);
 
   if (
@@ -32,18 +33,21 @@ document.querySelector('.check').addEventListener('click', function () {
       document.querySelector('.number').textContent = secretNumber;
     } else if (score.textContent > 1) {
       if (guess > secretNumber && message.textContent != 'Correct guess 🎉🍾') {
-        message.textContent = `The guess is higher 📈`;
+        message.textContent = `${guess} is higher than the number 📈`;
         score.textContent--;
       } else if (
         guess < secretNumber &&
         message.textContent != 'Correct guess 🎉🍾'
       ) {
-        message.textContent = `The guess is lower 📉`;
+        message.textContent = `${guess} is lower than the number 📉`;
         score.textContent--;
       }
     }
   }
-});
+  document.querySelector('.guess').value = '';
+};
+
+document.querySelector('.check').addEventListener('click', play);
 
 document.querySelector('.again').addEventListener('click', function () {
   message.textContent = 'Start guessing...';
@@ -52,4 +56,10 @@ document.querySelector('.again').addEventListener('click', function () {
   document.querySelector('.number').textContent = '?';
   document.querySelector('body').style.backgroundColor = '#222';
   document.querySelector('.guess').value = '';
+});
+
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') {
+    play();
+  }
 });
